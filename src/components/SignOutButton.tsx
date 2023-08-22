@@ -1,11 +1,10 @@
 import { buttonVariants } from '@/components/ui/Button';
 import signOut from '@/firebase/auth/signOut';
-import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 function SignOutButton() {
-  const { toast } = useToast();
   const router = useRouter();
 
   const onSignOut = async () => {
@@ -15,11 +14,7 @@ function SignOutButton() {
       router.push('/');
       return success;
     } else {
-      toast({
-        title: 'Error',
-        description: 'There was an error during sign out',
-        variant: 'destructive',
-      });
+      toast.error('There was an error during sign out!');
       return error;
     }
   };
