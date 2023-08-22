@@ -1,5 +1,5 @@
 import { buttonVariants } from '@/components/ui/Button';
-import signOut from '@/firebase/auth/signOut';
+import signOut from '@/firebase/auth/googleSignOut';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';

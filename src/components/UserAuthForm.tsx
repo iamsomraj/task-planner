@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/Button';
 import { useAuthContext } from '@/context/AuthContext';
-import signIn from '@/firebase/auth/signIn';
-import signUp from '@/firebase/auth/signUp';
+import signIn from '@/firebase/auth/googleSignIn';
+import signUp from '@/firebase/auth/googleSignUp';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
