@@ -5,10 +5,11 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/hooks/use-toast';
-import signIn from '@/firebase/auth/signin';
-import signUp from '@/firebase/auth/signup';
+import signIn from '@/firebase/auth/signIn';
+import signUp from '@/firebase/auth/signUp';
 import { useRouter } from 'next/navigation';
 import { Icons } from './Icons';
+import { useAuthContext } from '@/context/AuthContext';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   mode: 'sign-in' | 'sign-up';
@@ -18,6 +19,14 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
+  const { user } = useAuthContext();
+
+  React.useEffect(() => {
+    if (!!user) {
+      router.push('/home');
+    }
+  }, [user, router]);
+
   const signInWithGoogle = async () => {
     setIsLoading(true);
     const { error } = await signIn();
@@ -38,6 +47,10 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   const signUpWithGoogle = async () => {
     setIsLoading(true);
     const { error } = await signUp();
+    console.log(
+      '🚀 ~ file: UserAuthForm.tsx:41 ~ signUpWithGoogle ~ error:',
+      error
+    );
     if (error) {
       toast({
         title: 'Error',
