@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import { AuthContextProvider } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
@@ -11,14 +12,26 @@ export const metadata: Metadata = {
   description: 'Manage all of your tasks in one go',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang='en'
-      className={cn('bg-white text-slate-900 antialiased light', inter.className)}>
-      <Navbar />
-      <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
-        <div className='container max-w-7xl mx-auto h-full pt-12'>{children}</div>
+      className={cn(
+        'light bg-white text-slate-900 antialiased',
+        inter.className
+      )}
+    >
+      <body className='min-h-screen bg-slate-50 pt-12 antialiased'>
+        <AuthContextProvider>
+          <Navbar />
+          <div className='container mx-auto h-full max-w-7xl pt-12'>
+            {children}
+          </div>
+        </AuthContextProvider>
       </body>
     </html>
   );

@@ -9,7 +9,7 @@ const Navbar = async () => {
         <Link
           href='/'
           className='flex gap-2 items-center'>
-          <p className=' text-zinc-700 text-sm font-medium'>Task Planner Pro</p>
+          <span className=' text-zinc-700 text-sm font-medium'>Task Planner Pro</span>
         </Link>
         {/* brand */}
 
