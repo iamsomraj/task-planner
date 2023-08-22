@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import Toast from '@/components/ui/Toast';
 import { AuthContextProvider } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
@@ -25,12 +26,13 @@ export default function RootLayout({
         inter.className
       )}
     >
-      <body className='min-h-screen bg-slate-50 pt-12 antialiased'>
+      <body className='flex min-h-screen bg-slate-50 pt-12 antialiased'>
         <AuthContextProvider>
           <Navbar />
           <div className='container mx-auto h-full max-w-7xl pt-12'>
             {children}
           </div>
+          <Toast />
         </AuthContextProvider>
       </body>
     </html>

@@ -8,7 +8,6 @@ export default async function signIn() {
   let result = null,
     error = null;
   try {
-    throw new Error('lol');
     result = await signInWithPopup(auth, provider);
   } catch (e) {
     error = e;
