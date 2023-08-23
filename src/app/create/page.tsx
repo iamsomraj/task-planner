@@ -40,8 +40,8 @@ const Page = () => {
       await addTask(payload);
       return;
     },
-    onError: (err) => {
-      toast('There was an error. Could not create subreddit.');
+    onError: () => {
+      toast('There was an error. Could not create task.');
     },
     onSuccess: () => {
       router.push(`/home`);
