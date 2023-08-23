@@ -1,5 +1,4 @@
 import { useAuthContext } from '@/context/AuthContext';
-import deleteTask from '@/firebase/firestore/deleteTask';
 import updateTask from '@/firebase/firestore/updateTask';
 import { convertFirestoreTimestamp, formatTimeToNow } from '@/lib/utils';
 import { ITask } from '@/types/Task';
@@ -15,7 +14,6 @@ type Props = {
 
 const Task = (props: Props) => {
   const { user } = useAuthContext();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const { mutate: markAsCompleteThisTask, isLoading } = useMutation({
@@ -45,11 +43,18 @@ const Task = (props: Props) => {
 
   const { mutate: deleteThisTask, isLoading: isDeleteLoading } = useMutation({
     mutationFn: async () => {
-      if (!user?.uid || !props?.task?.id) {
+      if (!user?.uid || !props?.task?.id || !props?.task?.slug) {
         return;
       }
 
-      await deleteTask(props.task.id);
+      await updateTask(
+        props.task.id,
+        props.task.slug,
+        {
+          isDeleted: true,
+        },
+        user.uid
+      );
       return;
     },
     onError: () => {
@@ -65,7 +70,12 @@ const Task = (props: Props) => {
     <div className='divide-y rounded-lg border bg-white'>
       <div className='flex flex-col gap-2 p-4'>
         <div className='flex items-center justify-between gap-2'>
-          <h3 className='text-2xl font-bold '>{props.task.title}</h3>
+          <Link
+            href={`/task/${props.task.slug}`}
+            className='text-2xl font-bold hover:underline'
+          >
+            {props.task.title}
+          </Link>
           <Link
             className={buttonVariants({
               variant: 'link',
