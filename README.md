@@ -26,7 +26,7 @@ Following steps are required to run the application:
     git clone https://github.com/iamsomraj/task-planner.git
 ```
 
-- Go to Root Directory of iamsomraj.github.io
+- Go to Root Directory of task-planner
 
 - Setup Environment Variables
 
@@ -41,7 +41,7 @@ To run this project, you will need to add the following environment variables to
 
 Create these environment variables, save them in root folder. File name can be `.env.local`.
 
-- Start iamsomraj.github.io
+- Start task-planner
 
 ```bash
   npm run dev
