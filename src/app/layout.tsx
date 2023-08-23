@@ -11,6 +11,20 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Task Planner Pro',
   description: 'Manage all of your tasks in one go',
+  viewport: {
+    width: 'device-width',
+    height: 'device-height',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  keywords: [
+    'Task manager',
+    'Task organizer',
+    'To-do list',
+    'Productivity tool',
+    'Daily planner',
+    'Synced task manager',
+  ],
 };
 
 export default function RootLayout({
