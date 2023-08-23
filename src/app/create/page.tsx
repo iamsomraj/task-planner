@@ -27,7 +27,7 @@ const Page = () => {
         return;
       }
       const payload = {
-        slug: slugify(title) + '-' + new Date().getTime(),
+        slug: slugify(title, { lower: true }) + '-' + new Date().getTime(),
         title,
         description,
         userId: user.uid,
