@@ -6,13 +6,14 @@ import { useAuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import SignOutButton from './SignOutButton';
+import { UserNavbarActions } from './UserNavbarActions';
 
 const Navbar = () => {
   const { user } = useAuthContext();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (user === null) router.push('/');
+    if (user === null) router.push('/sign-in');
   }, [user, router]);
 
   return (
@@ -28,7 +29,7 @@ const Navbar = () => {
 
         {/* actions */}
         {!!user ? (
-          <SignOutButton />
+          <UserNavbarActions user={user} />
         ) : (
           <Link href='/sign-in' className={buttonVariants()}>
             Sign In

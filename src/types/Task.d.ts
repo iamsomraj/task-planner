@@ -1,9 +1,10 @@
 export interface ITask {
+  slug: string;
   title: string;
   description: string;
   userId: string;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  updatedAt: Date;
   isCompleted: boolean;
   isDeleted: boolean;
 }
