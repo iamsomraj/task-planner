@@ -23,7 +23,7 @@ function Page() {
       return await getTasks(user.uid);
     },
     onError: () => {
-      toast('There was an error. Could not fetch tasks.');
+      toast.error('There was an error. Could not fetch tasks.');
     },
   });
 
