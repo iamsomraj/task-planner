@@ -1,34 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Task Planner Pro - A Modern Fullstack Personal Task Manager
 
-## Getting Started
+Built with the Next.js App Router, TypeScript, Tailwind and Firebase
 
-First, run the development server:
+## Demo
+
+✅ [Preview] [https://task-planner-pro.vercel.app/]
+
+## Features
+
+- Home Page for viewing personal tasks
+- Option to Create new Task
+- Option to edit Task title and description
+- Ability to mark task as completed
+- Option to delete task
+
+## Run This Application
+
+Following steps are required to run the application:
+
+- Open Terminal
+
+- Clone Task Planner Pro Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+    git clone https://github.com/iamsomraj/task-planner.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Go to Root Directory of iamsomraj.github.io
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Setup Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To run this project, you will need to add the following environment variables to your .env file ( `.env.example` )
 
-## Learn More
+- `NEXT_PUBLIC_FIREBASE_API_KEY` : api-key
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` : auth-domain
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID` : project-id
+- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` : storage-bucket
+- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` : sender-id
+- `NEXT_PUBLIC_FIREBASE_APP_ID` : app-id
 
-To learn more about Next.js, take a look at the following resources:
+Create these environment variables, save them in root folder. File name can be `.env.local`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Start iamsomraj.github.io
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+  npm run dev
+```
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**App:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next JS 13 (App Router, Server Components, Client Components)
+- Tailwind CSS
+- Firebase
+
+**Language Used:**
+
+- Typescript
+
+## Feedback
+
+If you have any feedback or you want to give me some tips related to development or even documentation, please reach out to me at iamsomraj@gmail.com.
