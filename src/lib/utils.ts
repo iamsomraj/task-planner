@@ -29,7 +29,9 @@ const formatDistanceLocale = {
 function formatDistance(token: string, count: number, options?: any): string {
   options = options || {};
 
-  const result = formatDistanceLocale[token as keyof typeof formatDistanceLocale].replace('{{count}}', count.toString());
+  const result = formatDistanceLocale[
+    token as keyof typeof formatDistanceLocale
+  ].replace('{{count}}', count.toString());
 
   if (options.addSuffix) {
     if (options.comparison > 0) {
@@ -51,4 +53,14 @@ export function formatTimeToNow(date: Date): string {
       formatDistance,
     },
   });
+}
+
+export function convertFirestoreTimestamp(timestamp: {
+  seconds: number;
+  nanoseconds: number;
+}): Date {
+  const seconds = timestamp.seconds;
+  const milliseconds =
+    seconds * 1000 + Math.round(timestamp.nanoseconds / 1000000);
+  return new Date(milliseconds);
 }

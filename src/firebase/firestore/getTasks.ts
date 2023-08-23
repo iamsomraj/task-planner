@@ -3,6 +3,7 @@ import {
   collection,
   getDocs,
   getFirestore,
+  orderBy,
   query,
   where,
 } from 'firebase/firestore';
@@ -16,16 +17,20 @@ export default async function getTasks(userId: string): Promise<ITask[]> {
     const tasksQuery = query(
       tasksCollection,
       where('userId', '==', userId),
-      where('isDeleted', '==', false)
+      where('isDeleted', '==', false),
+      orderBy('updatedAt', 'desc'), // Order by 'updatedAt' in descending order
+      orderBy('createdAt', 'desc') // Order by 'createdAt' in descending order
     );
     const querySnapshot = await getDocs(tasksQuery);
     const tasks: ITask[] = [];
 
     querySnapshot.forEach((doc) => {
-      const taskData = doc.data();
-      if (taskData.userId === userId) {
-        tasks.push(taskData as ITask);
-      }
+      const taskData = doc.data() as ITask;
+      const taskWithId = {
+        id: doc.id,
+        ...taskData,
+      };
+      tasks.push(taskWithId);
     });
 
     return tasks;

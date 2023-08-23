@@ -1,4 +1,4 @@
-import { ITask } from '@/types/Task';
+import { ITaskPayload } from '@/types/Task';
 import {
   addDoc,
   collection,
@@ -9,7 +9,7 @@ import firebase_app from '../config';
 
 const db = getFirestore(firebase_app);
 
-export default async function addTask(task: ITask) {
+export default async function addTask(task: ITaskPayload) {
   try {
     const tasksCollection = collection(db, 'tasks');
     await addDoc(tasksCollection, {

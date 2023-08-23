@@ -12,7 +12,6 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 function Page() {
-  const [tasks, setTasks] = useState<ITask[]>([]);
   const { user } = useAuthContext();
   const router = useRouter();
 
@@ -27,10 +26,6 @@ function Page() {
     onError: () => {
       toast('There was an error. Could not fetch tasks.');
     },
-    onSuccess: (data) => {
-      if (!data) return;
-      setTasks(data);
-    },
   });
 
   React.useEffect(() => {
@@ -39,7 +34,7 @@ function Page() {
 
   if (isLoading) return 'Loading...';
 
-  if (error) return 'An error has occurred';
+  if (error || !data) return 'An error has occurred';
 
   return (
     <div className='flex flex-col gap-y-6'>
@@ -50,7 +45,7 @@ function Page() {
       </div>
 
       <div className='flex flex-col gap-6'>
-        {tasks.map((task, index) => (
+        {data.map((task, index) => (
           <Task key={index} task={task} />
         ))}
       </div>
