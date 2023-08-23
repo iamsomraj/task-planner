@@ -81,6 +81,8 @@ const Task = (props: Props) => {
             <Button
               isLoading={isLoading}
               onClick={() => markAsCompleteThisTask(false)}
+              variant='link'
+              size={'sm'}
             >
               Undo
             </Button>
@@ -89,11 +91,18 @@ const Task = (props: Props) => {
           <Button
             isLoading={isLoading}
             onClick={() => markAsCompleteThisTask(true)}
+            variant='outline'
+            size={'sm'}
           >
             Mark As Complete
           </Button>
         )}
-        <Button isLoading={isDeleteLoading} onClick={() => deleteThisTask()}>
+        <Button
+          variant={'default'}
+          size={'lg'}
+          isLoading={isDeleteLoading}
+          onClick={() => deleteThisTask()}
+        >
           Delete
         </Button>
       </div>
