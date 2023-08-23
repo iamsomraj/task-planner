@@ -1,31 +1,41 @@
 'use client';
 
+import EditTask from '@/components/EditTask';
 import Task from '@/components/Task';
-import { buttonVariants } from '@/components/ui/Button';
 import { useAuthContext } from '@/context/AuthContext';
-import getTasks from '@/firebase/firestore/getTasks';
+import getUserTask from '@/firebase/firestore/getUserTask';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'react-hot-toast';
 
-function Page() {
+interface TaskEditPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
   const { user } = useAuthContext();
   const router = useRouter();
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: async () => {
-      if (!user?.uid) {
+  const queryKey = ['task'];
+
+  const { isLoading, error, data } = useQuery(
+    queryKey,
+    async () => {
+      if (!user?.uid || !slug) {
         return;
       }
-      return await getTasks(user.uid);
+      return await getUserTask(slug, user.uid);
     },
-    onError: () => {
-      toast('There was an error. Could not fetch tasks.');
-    },
-  });
+    {
+      onError: () => {
+        toast('There was an error. Could not fetch task.');
+        router.push(`/home`);
+      },
+    }
+  );
 
   React.useEffect(() => {
     if (user === null) router.push('/sign-in');
@@ -37,19 +47,11 @@ function Page() {
 
   return (
     <div className='flex flex-col gap-y-6'>
-      <div>
-        <Link href='/create' className={buttonVariants()}>
-          Create Task
-        </Link>
-      </div>
-
       <div className='flex flex-col gap-6'>
-        {data.map((task, index) => (
-          <Task key={index} task={task} />
-        ))}
+        <EditTask task={data} />
       </div>
     </div>
   );
-}
+};
 
-export default Page;
+export default TaskEditPage;

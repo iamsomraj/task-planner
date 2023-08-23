@@ -1,24 +1,19 @@
 import { ITask } from '@/types/Task';
 import {
   collection,
-  doc,
   getDocs,
   getFirestore,
   query,
-  serverTimestamp,
-  updateDoc,
   where,
 } from 'firebase/firestore';
 import firebase_app from '../config';
 
 const db = getFirestore(firebase_app);
 
-export default async function updateTask(
-  id: string,
+export default async function getUserTask(
   taskSlug: string,
-  updatedTask: Partial<ITask>,
   userId: string
-) {
+): Promise<ITask> {
   try {
     const tasksCollection = collection(db, 'tasks');
     const tasksQuery = query(
@@ -29,15 +24,17 @@ export default async function updateTask(
     );
     const querySnapshot = await getDocs(tasksQuery);
 
-    if (querySnapshot.empty) {
+    if (!querySnapshot.empty) {
+      const taskDoc = querySnapshot.docs[0];
+      const taskData = taskDoc.data() as ITask;
+
+      return {
+        id: taskDoc.id,
+        ...taskData,
+      };
+    } else {
       throw new Error('Task not found or unauthorized access.');
     }
-
-    const taskRef = doc(db, 'tasks', id);
-    await updateDoc(taskRef, {
-      ...updatedTask,
-      updatedAt: serverTimestamp(),
-    });
   } catch (e) {
     throw e;
   }
