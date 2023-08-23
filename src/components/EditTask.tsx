@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import slugify from 'slugify';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Textarea } from './ui/Textarea';
@@ -35,6 +36,7 @@ const EditTask = (props: Props) => {
         props.task.id,
         props.task.slug,
         {
+          slug: slugify(title, { lower: true }) + '-' + new Date().getTime(),
           title,
           description,
         },
@@ -48,6 +50,7 @@ const EditTask = (props: Props) => {
     onSuccess: () => {
       toast.success('Task updated successfully!');
       router.push(`/home`);
+      queryClient.invalidateQueries({ queryKey: ['task', props?.task?.slug] });
     },
   });
 
