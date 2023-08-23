@@ -19,7 +19,7 @@ const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
   const { user } = useAuthContext();
   const router = useRouter();
 
-  const queryKey = ['task'];
+  const queryKey = ['task', slug];
 
   const { isLoading, error, data } = useQuery(
     queryKey,

@@ -1,5 +1,4 @@
 import { useAuthContext } from '@/context/AuthContext';
-import deleteTask from '@/firebase/firestore/deleteTask';
 import updateTask from '@/firebase/firestore/updateTask';
 import { ITask } from '@/types/Task';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -48,17 +47,24 @@ const EditTask = (props: Props) => {
     },
     onSuccess: () => {
       toast.success('Task updated successfully!');
-      queryClient.invalidateQueries({ queryKey: ['task'] });
+      router.push(`/home`);
     },
   });
 
   const { mutate: deleteThisTask, isLoading: isDeleteLoading } = useMutation({
     mutationFn: async () => {
-      if (!user?.uid || !props?.task?.id) {
+      if (!user?.uid || !props?.task?.id || !props?.task?.slug) {
         return;
       }
 
-      await deleteTask(props.task.id);
+      await updateTask(
+        props.task.id,
+        props.task.slug,
+        {
+          isDeleted: true,
+        },
+        user.uid
+      );
       return;
     },
     onError: () => {
