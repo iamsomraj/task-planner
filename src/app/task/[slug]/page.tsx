@@ -31,7 +31,7 @@ const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
     },
     {
       onError: () => {
-        toast('There was an error. Could not fetch task.');
+        toast.error('There was an error. Could not fetch task.');
         router.push(`/home`);
       },
     }

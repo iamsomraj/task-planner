@@ -45,7 +45,7 @@ const EditTask = (props: Props) => {
       return;
     },
     onError: () => {
-      toast('There was an error. Could not update the task.');
+      toast.error('There was an error. Could not update the task.');
     },
     onSuccess: () => {
       toast.success('Task updated successfully!');
@@ -71,7 +71,7 @@ const EditTask = (props: Props) => {
       return;
     },
     onError: () => {
-      toast('There was an error. Could not delete task.');
+      toast.error('There was an error. Could not delete task.');
     },
     onSuccess: () => {
       toast.success('Task deleted successfully!');

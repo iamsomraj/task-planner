@@ -33,7 +33,7 @@ const Task = (props: Props) => {
       return;
     },
     onError: () => {
-      toast('There was an error. Could not mark the task as complete.');
+      toast.error('There was an error. Could not mark the task as complete.');
     },
     onSuccess: () => {
       toast.success('Task updated successfully!');
@@ -58,7 +58,7 @@ const Task = (props: Props) => {
       return;
     },
     onError: () => {
-      toast('There was an error. Could not delete task.');
+      toast.error('There was an error. Could not delete task.');
     },
     onSuccess: () => {
       toast.success('Task deleted successfully!');

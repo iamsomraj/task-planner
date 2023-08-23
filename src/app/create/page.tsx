@@ -39,7 +39,7 @@ const Page = () => {
       return;
     },
     onError: () => {
-      toast('There was an error. Could not create task.');
+      toast.error('There was an error. Could not create task.');
     },
     onSuccess: () => {
       toast.success('Task created successfully!');
