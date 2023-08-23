@@ -21,7 +21,7 @@ const Navbar = () => {
       <div className='container mx-auto flex h-full max-w-7xl items-center justify-between gap-2'>
         {/* brand */}
         <Link href='/' className='flex items-center gap-2'>
-          <span className=' text-sm font-medium text-zinc-700'>
+          <span className='text-base font-bold text-zinc-700'>
             Task Planner Pro
           </span>
         </Link>

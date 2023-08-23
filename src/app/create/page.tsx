@@ -31,8 +31,6 @@ const Page = () => {
         title,
         description,
         userId: user.uid,
-        createdAt: new Date(),
-        updatedAt: new Date(),
         isCompleted: false,
         isDeleted: false,
       };
@@ -72,7 +70,7 @@ const Page = () => {
           />
         </div>
 
-        <div className='flex justify-end gap-4'>
+        <div className='flex items-center justify-between gap-4'>
           <Button
             disabled={isLoading}
             variant='subtle'
