@@ -4,11 +4,10 @@ import Task from '@/components/Task';
 import { buttonVariants } from '@/components/ui/Button';
 import { useAuthContext } from '@/context/AuthContext';
 import getTasks from '@/firebase/firestore/getTasks';
-import { ITask } from '@/types/Task';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { toast } from 'react-hot-toast';
 
 function Page() {

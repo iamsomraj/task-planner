@@ -1,13 +1,13 @@
 import { useAuthContext } from '@/context/AuthContext';
+import deleteTask from '@/firebase/firestore/deleteTask';
+import updateTask from '@/firebase/firestore/updateTask';
+import { convertFirestoreTimestamp, formatTimeToNow } from '@/lib/utils';
 import { ITask } from '@/types/Task';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { toast } from 'react-hot-toast';
-import { Button } from './ui/Button';
-import deleteTask from '@/firebase/firestore/deleteTask';
-import { convertFirestoreTimestamp, formatTimeToNow } from '@/lib/utils';
-import updateTask from '@/firebase/firestore/updateTask';
+import { Button, buttonVariants } from './ui/Button';
 
 type Props = {
   task: ITask;
@@ -20,19 +20,25 @@ const Task = (props: Props) => {
 
   const { mutate: markAsCompleteThisTask, isLoading } = useMutation({
     mutationFn: async (isCompleted: boolean) => {
-      if (!user?.uid || !props?.task?.id) {
+      if (!user?.uid || !props?.task?.id || !props?.task?.slug) {
         return;
       }
 
-      await updateTask(props.task.id, {
-        isCompleted,
-      });
+      await updateTask(
+        props.task.id,
+        props.task.slug,
+        {
+          isCompleted,
+        },
+        user?.uid
+      );
       return;
     },
     onError: () => {
       toast('There was an error. Could not mark the task as complete.');
     },
     onSuccess: () => {
+      toast.success('Task updated successfully!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
@@ -50,6 +56,7 @@ const Task = (props: Props) => {
       toast('There was an error. Could not delete task.');
     },
     onSuccess: () => {
+      toast.success('Task deleted successfully!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
@@ -57,7 +64,17 @@ const Task = (props: Props) => {
   return (
     <div className='divide-y rounded-lg border bg-white'>
       <div className='flex flex-col gap-2 p-4'>
-        <h3 className='text-2xl font-bold '>{props.task.title}</h3>
+        <div className='flex items-center justify-between gap-2'>
+          <h3 className='text-2xl font-bold '>{props.task.title}</h3>
+          <Link
+            className={buttonVariants({
+              variant: 'link',
+            })}
+            href={`/task/${props.task.slug}`}
+          >
+            Edit
+          </Link>
+        </div>
         <p className='whitespace-pre-line'>{props.task.description}</p>
         <div className='flex flex-col justify-start  gap-1 text-xs'>
           <p>

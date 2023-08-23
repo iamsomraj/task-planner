@@ -18,8 +18,8 @@ export default async function getTasks(userId: string): Promise<ITask[]> {
       tasksCollection,
       where('userId', '==', userId),
       where('isDeleted', '==', false),
-      orderBy('updatedAt', 'desc'), // Order by 'updatedAt' in descending order
-      orderBy('createdAt', 'desc') // Order by 'createdAt' in descending order
+      orderBy('updatedAt', 'desc'),
+      orderBy('createdAt', 'desc')
     );
     const querySnapshot = await getDocs(tasksQuery);
     const tasks: ITask[] = [];

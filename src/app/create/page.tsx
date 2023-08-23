@@ -42,6 +42,7 @@ const Page = () => {
       toast('There was an error. Could not create task.');
     },
     onSuccess: () => {
+      toast.success('Task created successfully!');
       router.push(`/home`);
     },
   });
