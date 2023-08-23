@@ -72,7 +72,7 @@ const Task = (props: Props) => {
         <div className='flex items-center justify-between gap-2'>
           <Link
             href={`/task/${props.task.slug}`}
-            className='text-2xl font-bold hover:underline'
+            className='line-clamp-3 text-2xl font-bold hover:underline'
           >
             {props.task.title}
           </Link>
@@ -85,21 +85,22 @@ const Task = (props: Props) => {
             Edit
           </Link>
         </div>
-        <p className='whitespace-pre-line'>{props.task.description}</p>
-        <div className='flex flex-col justify-start  gap-1 text-xs'>
-          <p>
-            Task Created{' '}
-            {formatTimeToNow(
-              new Date(convertFirestoreTimestamp(props.task.createdAt))
-            )}
-          </p>
-          <p>
-            Last Updated{' '}
-            {formatTimeToNow(
-              new Date(convertFirestoreTimestamp(props.task.updatedAt))
-            )}
-          </p>
+        <div className='flex-shrink-0 text-xs'>
+          {!props?.task?.updatedAt ? (
+            <p className='text-sm text-zinc-400'>
+              {formatTimeToNow(
+                new Date(convertFirestoreTimestamp(props.task.createdAt))
+              )}
+            </p>
+          ) : (
+            <p className='text-sm text-zinc-400'>
+              {formatTimeToNow(
+                new Date(convertFirestoreTimestamp(props.task.updatedAt))
+              )}
+            </p>
+          )}
         </div>
+        <p className='whitespace-pre-line'>{props.task.description}</p>
       </div>
       <div className='flex items-center justify-between p-4'>
         {props?.task?.isCompleted ? (
