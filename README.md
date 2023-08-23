@@ -13,6 +13,7 @@ Built with the Next.js App Router, TypeScript, Tailwind and Firebase
 - Option to edit Task title and description
 - Ability to mark task as completed
 - Option to delete task
+- much more
 
 ## Run This Application
 
