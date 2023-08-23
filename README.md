@@ -8,6 +8,7 @@ Built with the Next.js App Router, TypeScript, Tailwind and Firebase
 
 ## Features
 
+- Google SSO
 - Home Page for viewing personal tasks
 - Option to Create new Task
 - Option to edit Task title and description
