@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { useAuthContext } from '@/context/AuthContext';
 import addTask from '@/firebase/firestore/addTask';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -16,6 +16,7 @@ const Page = () => {
   const [description, setDescription] = useState<string>('');
   const { user } = useAuthContext();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (user === null) router.push('/sign-in');
@@ -43,6 +44,7 @@ const Page = () => {
     },
     onSuccess: () => {
       toast.success('Task created successfully!');
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
       router.push(`/home`);
     },
   });
