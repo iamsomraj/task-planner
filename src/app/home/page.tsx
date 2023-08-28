@@ -43,7 +43,7 @@ function Page() {
         </Link>
       </div>
 
-      <div className='flex flex-col gap-6'>
+      <div className='flex flex-col gap-6 mb-24'>
         {data.map((task, index) => (
           <Task key={index} task={task} />
         ))}
