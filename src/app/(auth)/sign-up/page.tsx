@@ -1,7 +1,4 @@
 import SignUp from '@/components/SignUp';
-import { buttonVariants } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { FC } from 'react';
 
 interface pageProps {}

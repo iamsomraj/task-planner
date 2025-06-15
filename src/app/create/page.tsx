@@ -4,89 +4,104 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { useAuthContext } from '@/context/AuthContext';
-import addTask from '@/firebase/firestore/addTask';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCreateTask } from '@/hooks/useTasks';
+import { generateSlug } from '@/utils/helpers';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import slugify from 'slugify';
 
-const Page = () => {
+const CreateTaskPage = () => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const { user } = useAuthContext();
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const { mutate: createTask, isLoading } = useCreateTask();
 
   useEffect(() => {
-    if (user === null) router.push('/sign-in');
+    if (!user) {
+      router.push('/sign-in');
+    }
   }, [user, router]);
 
-  const { mutate: createTask, isLoading } = useMutation({
-    mutationFn: async () => {
-      if (!user?.uid) {
-        return;
-      }
-      const payload = {
-        slug: slugify(title, { lower: true }) + '-' + new Date().getTime(),
-        title,
-        description,
-        userId: user.uid,
-        isCompleted: false,
-        isDeleted: false,
-      };
-
-      await addTask(payload);
+  const handleCreateTask = () => {
+    if (!title.trim() || !description.trim()) {
       return;
-    },
-    onError: () => {
-      toast.error('There was an error. Could not create task.');
-    },
-    onSuccess: () => {
-      toast.success('Task created successfully!');
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      router.push(`/home`);
-    },
-  });
+    }
+
+    const slug = `${generateSlug(title)}-${Date.now()}`;
+
+    createTask({
+      slug,
+      title: title.trim(),
+      description: description.trim(),
+      isCompleted: false,
+      isDeleted: false,
+    });
+  };
+
+  const isFormValid = title.trim().length > 0 && description.trim().length > 0;
 
   return (
     <div className='container mx-auto flex h-full max-w-3xl items-center'>
-      <div className='relative h-fit w-full space-y-6 rounded-lg bg-white p-4'>
+      <div className='relative h-fit w-full space-y-6 rounded-lg border bg-white p-6 shadow-sm'>
         <div className='flex items-center justify-between'>
-          <h1 className='text-xl font-semibold'>Create a Task</h1>
+          <h1 className='text-2xl font-bold'>Create a Task</h1>
         </div>
 
-        <hr className='h-px bg-red-500' />
+        <hr className='border-gray-200' />
 
-        <div>
-          <p className='text-lg font-medium'>Title</p>
-          <p className='pb-2 text-xs'>Task titles can be 5-10 words.</p>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <div className='space-y-4'>
+          <div>
+            <label htmlFor='title' className='mb-2 block text-lg font-medium'>
+              Title
+            </label>
+            <p className='mb-2 text-sm text-gray-600'>
+              Enter a clear, concise title for your task.
+            </p>
+            <Input
+              id='title'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder='Enter task title...'
+              maxLength={100}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor='description'
+              className='mb-2 block text-lg font-medium'
+            >
+              Description
+            </label>
+            <p className='mb-2 text-sm text-gray-600'>
+              Provide detailed information about what needs to be done.
+            </p>
+            <Textarea
+              id='description'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder='Describe your task in detail...'
+              rows={4}
+            />
+          </div>
         </div>
 
-        <div>
-          <p className='text-lg font-medium'>Description</p>
-          <p className='pb-2 text-xs'>Give details about your task.</p>
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        <div className='flex items-center justify-between gap-4'>
+        <div className='flex items-center justify-between gap-4 pt-4'>
           <Button
-            disabled={isLoading}
-            variant='subtle'
+            type='button'
+            variant='outline'
             onClick={() => router.back()}
+            disabled={isLoading}
           >
             Cancel
           </Button>
           <Button
+            type='button'
+            onClick={handleCreateTask}
             isLoading={isLoading}
-            disabled={title.length === 0 || description.length === 0}
-            onClick={() => createTask()}
+            disabled={!isFormValid || isLoading}
           >
-            Create Task
+            {isLoading ? 'Creating...' : 'Create Task'}
           </Button>
         </div>
       </div>
@@ -94,4 +109,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default CreateTaskPage;

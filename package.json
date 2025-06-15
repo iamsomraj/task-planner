@@ -7,8 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "npx tsc --noEmit",
     "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "pre-commit": "npm run type-check && npm run lint && npm run format"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.3",

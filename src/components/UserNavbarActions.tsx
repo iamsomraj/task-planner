@@ -6,9 +6,9 @@ interface UserNavbarActionsProps {
   user: Pick<User, 'photoURL' | 'displayName'>;
 }
 
-export function UserNavbarActions({ user, ...props }: UserNavbarActionsProps) {
+export function UserNavbarActions({ user }: UserNavbarActionsProps) {
   return (
-    <div className='flex items-center justify-end gap-4'>
+    <div className='flex items-center justify-end gap-3'>
       <UserAvatar
         user={{
           displayName: user?.displayName || null,
