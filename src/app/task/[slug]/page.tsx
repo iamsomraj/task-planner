@@ -4,6 +4,7 @@ import EditTask from '@/components/EditTask';
 import { useAuthContext } from '@/context/AuthContext';
 import { useGetTask } from '@/hooks/useTasks';
 import { RouteParams } from '@/types/common';
+import { ROUTES } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -18,13 +19,13 @@ const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
 
   React.useEffect(() => {
     if (!user) {
-      router.push('/sign-in');
+      router.push(ROUTES.SIGN_IN);
     }
   }, [user, router]);
 
   React.useEffect(() => {
     if (error) {
-      router.push('/home');
+      router.push(ROUTES.HOME);
     }
   }, [error, router]);
 
@@ -32,7 +33,7 @@ const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
     // If task data is undefined after loading, redirect to home
     // This handles cases where task might be deleted during viewing
     if (!isLoading && !task && !error) {
-      router.push('/home');
+      router.push(ROUTES.HOME);
     }
   }, [isLoading, task, error, router]);
 

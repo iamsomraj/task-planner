@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { useAuthContext } from '@/context/AuthContext';
 import { taskService } from '@/services/task';
 import { ITask, ITaskPayload } from '@/types/Task';
+import { ROUTES, QUERY_KEYS } from '@/lib/constants';
 
 export const useCreateTask = () => {
   const { user } = useAuthContext();
@@ -28,8 +29,8 @@ export const useCreateTask = () => {
     },
     onSuccess: () => {
       toast.success('Task created successfully!');
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      router.push('/home');
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TASKS] });
+      router.push(ROUTES.HOME);
     },
   });
 };
@@ -38,7 +39,7 @@ export const useGetTasks = () => {
   const { user } = useAuthContext();
 
   return useQuery({
-    queryKey: ['tasks', user?.uid],
+    queryKey: [QUERY_KEYS.TASKS, user?.uid],
     queryFn: async () => {
       if (!user?.uid) {
         return [];
@@ -56,7 +57,7 @@ export const useGetTask = (slug: string) => {
   const { user } = useAuthContext();
 
   return useQuery({
-    queryKey: ['task', slug, user?.uid],
+    queryKey: [QUERY_KEYS.TASK, slug, user?.uid],
     queryFn: async () => {
       if (!user?.uid || !slug) {
         throw new Error('Missing required parameters');
@@ -95,9 +96,11 @@ export const useUpdateTask = () => {
     },
     onSuccess: (_, variables) => {
       toast.success('Task updated successfully!');
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['task', variables.slug] });
-      router.push('/home');
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TASKS] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.TASK, variables.slug],
+      });
+      router.push(ROUTES.HOME);
     },
   });
 };
@@ -125,12 +128,14 @@ export const useDeleteTask = () => {
       toast.success('Task deleted successfully!');
 
       // Redirect immediately
-      router.push('/home');
+      router.push(ROUTES.HOME);
 
       // Invalidate queries after redirect
       setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['tasks'] });
-        queryClient.invalidateQueries({ queryKey: ['task', variables.slug] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TASKS] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.TASK, variables.slug],
+        });
       }, 100);
     },
   });
@@ -160,7 +165,7 @@ export const useToggleTaskCompletion = () => {
     },
     onSuccess: () => {
       toast.success('Task updated successfully!');
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TASKS] });
     },
   });
 };

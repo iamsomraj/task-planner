@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { useAuthContext } from '@/context/AuthContext';
 import { useCreateTask } from '@/hooks/useTasks';
 import { generateSlug } from '@/utils/helpers';
+import { ROUTES } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -18,7 +19,7 @@ const CreateTaskPage = () => {
 
   useEffect(() => {
     if (!user) {
-      router.push('/sign-in');
+      router.push(ROUTES.SIGN_IN);
     }
   }, [user, router]);
 

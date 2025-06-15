@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/Input';
 import { useAuthContext } from '@/context/AuthContext';
 import { useGetTasks } from '@/hooks/useTasks';
 import { convertFirestoreTimestamp } from '@/lib/utils';
+import { ROUTES } from '@/lib/constants';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -52,7 +53,7 @@ function HomePage() {
 
   React.useEffect(() => {
     if (!user) {
-      router.push('/sign-in');
+      router.push(ROUTES.SIGN_IN);
     }
   }, [user, router]);
 
@@ -134,7 +135,7 @@ function HomePage() {
             </p>
           </div>
           <div className='hidden sm:block'>
-            <Link href='/create' className={buttonVariants()}>
+            <Link href={ROUTES.CREATE_TASK} className={buttonVariants()}>
               Create Task
             </Link>
           </div>
@@ -151,7 +152,7 @@ function HomePage() {
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </Button>
           <Link
-            href='/create'
+            href={ROUTES.CREATE_TASK}
             className={buttonVariants({ className: 'w-full' })}
           >
             Create Task
@@ -317,7 +318,7 @@ function HomePage() {
               Get started by creating your first task. Stay organized and track
               your progress!
             </p>
-            <Link href='/create' className={buttonVariants()}>
+            <Link href={ROUTES.CREATE_TASK} className={buttonVariants()}>
               Create Your First Task
             </Link>
           </div>
@@ -359,7 +360,7 @@ function HomePage() {
                 Clear All Filters
               </Button>
               <Link
-                href='/create'
+                href={ROUTES.CREATE_TASK}
                 className={buttonVariants({ variant: 'outline' })}
               >
                 Create New Task

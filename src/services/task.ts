@@ -1,19 +1,20 @@
+import { COLLECTIONS } from '@/lib/constants';
+import { ITask, ITaskPayload } from '@/types/Task';
 import {
   addDoc,
   collection,
   doc,
   getDocs,
+  orderBy,
   query,
   serverTimestamp,
   updateDoc,
   where,
-  orderBy,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { ITask, ITaskPayload } from '@/types/Task';
 
 export class TaskService {
-  private readonly COLLECTION_NAME = 'tasks';
+  private readonly COLLECTION_NAME = COLLECTIONS.TASKS;
 
   async createTask(task: ITaskPayload): Promise<void> {
     try {

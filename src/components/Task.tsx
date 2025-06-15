@@ -1,5 +1,6 @@
 import { useDeleteTask, useToggleTaskCompletion } from '@/hooks/useTasks';
 import { convertFirestoreTimestamp, formatTimeToNow } from '@/lib/utils';
+import { ROUTES } from '@/lib/constants';
 import { ITask } from '@/types/Task';
 import Link from 'next/link';
 import { Button, buttonVariants } from './ui/Button';
@@ -51,7 +52,7 @@ const Task = ({ task }: TaskProps) => {
         <div className='flex items-start justify-between gap-4'>
           <div className='min-w-0 flex-1'>
             <Link
-              href={`/task/${task.slug}`}
+              href={ROUTES.TASK_DETAIL(task.slug)}
               className={`block text-xl font-bold transition-colors hover:underline ${
                 task.isCompleted
                   ? 'text-gray-500 line-through'
@@ -83,7 +84,7 @@ const Task = ({ task }: TaskProps) => {
               variant: 'outline',
               size: 'sm',
             })}
-            href={`/task/${task.slug}`}
+            href={ROUTES.TASK_DETAIL(task.slug)}
           >
             Edit
           </Link>
