@@ -34,14 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang='en'
-      className={cn(
-        'light bg-white text-slate-900 antialiased',
-        inter.className
-      )}
-    >
-      <body className='flex min-h-screen bg-slate-50 pt-12 antialiased'>
+    <html lang='en' className={cn(inter.className)} suppressHydrationWarning>
+      <body className='flex min-h-screen bg-background pt-12 antialiased'>
         <Providers>
           <Navbar />
           <div className='container mx-auto h-full max-w-7xl pt-12'>

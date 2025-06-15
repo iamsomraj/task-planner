@@ -44,7 +44,7 @@ const Task = ({ task }: TaskProps) => {
 
   return (
     <div
-      className={`divide-y rounded-lg border bg-white transition-opacity ${
+      className={`divide-y rounded-lg border bg-card transition-opacity ${
         isLoading ? 'opacity-50' : ''
       }`}
     >
@@ -55,8 +55,8 @@ const Task = ({ task }: TaskProps) => {
               href={ROUTES.TASK_DETAIL(task.slug)}
               className={`block text-xl font-bold transition-colors hover:underline ${
                 task.isCompleted
-                  ? 'text-gray-500 line-through'
-                  : 'text-gray-900'
+                  ? 'text-muted-foreground line-through'
+                  : 'text-foreground'
               }`}
             >
               {task.title}
@@ -65,13 +65,13 @@ const Task = ({ task }: TaskProps) => {
               <span
                 className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
                   task.isCompleted
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-yellow-100 text-yellow-800'
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                    : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
                 }`}
               >
                 {task.isCompleted ? 'Completed' : 'Pending'}
               </span>
-              <span className='text-sm text-gray-500'>
+              <span className='text-sm text-muted-foreground'>
                 {task.updatedAt
                   ? formatDate(task.updatedAt)
                   : formatDate(task.createdAt)}
@@ -91,14 +91,14 @@ const Task = ({ task }: TaskProps) => {
         </div>
 
         <p
-          className={`whitespace-pre-wrap text-gray-700 ${
+          className={`whitespace-pre-wrap text-muted-foreground ${
             task.isCompleted ? 'line-through opacity-60' : ''
           }`}
         >
           {task.description}
         </p>
 
-        <div className='flex items-center justify-between border-t pt-4'>
+        <div className='flex items-center justify-between border-t border-border pt-4'>
           <Button
             onClick={handleToggleCompletion}
             variant={task.isCompleted ? 'outline' : 'default'}

@@ -43,19 +43,22 @@ const CreateTaskPage = () => {
 
   return (
     <div className='container mx-auto flex h-full max-w-3xl items-center'>
-      <div className='relative h-fit w-full space-y-6 rounded-lg border bg-white p-6 shadow-sm'>
+      <div className='relative h-fit w-full space-y-6 rounded-lg border bg-card p-6 shadow-sm'>
         <div className='flex items-center justify-between'>
-          <h1 className='text-2xl font-bold'>Create a Task</h1>
+          <h1 className='text-2xl font-bold text-foreground'>Create a Task</h1>
         </div>
 
-        <hr className='border-gray-200' />
+        <hr className='border-border' />
 
         <div className='space-y-4'>
           <div>
-            <label htmlFor='title' className='mb-2 block text-lg font-medium'>
+            <label
+              htmlFor='title'
+              className='mb-2 block text-lg font-medium text-foreground'
+            >
               Title
             </label>
-            <p className='mb-2 text-sm text-gray-600'>
+            <p className='mb-2 text-sm text-muted-foreground'>
               Enter a clear, concise title for your task.
             </p>
             <Input
@@ -70,11 +73,11 @@ const CreateTaskPage = () => {
           <div>
             <label
               htmlFor='description'
-              className='mb-2 block text-lg font-medium'
+              className='mb-2 block text-lg font-medium text-foreground'
             >
               Description
             </label>
-            <p className='mb-2 text-sm text-gray-600'>
+            <p className='mb-2 text-sm text-muted-foreground'>
               Provide detailed information about what needs to be done.
             </p>
             <Textarea

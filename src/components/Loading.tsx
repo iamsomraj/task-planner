@@ -16,8 +16,10 @@ const Loading = ({ size = 'md', text, className }: LoadingProps) => {
 
   return (
     <div className={cn('flex items-center justify-center gap-2', className)}>
-      <Icons.loader className={cn('animate-spin', sizeClasses[size])} />
-      {text && <span className='text-sm text-gray-600'>{text}</span>}
+      <Icons.loader
+        className={cn('animate-spin text-muted-foreground', sizeClasses[size])}
+      />
+      {text && <span className='text-sm text-muted-foreground'>{text}</span>}
     </div>
   );
 };

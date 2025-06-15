@@ -64,16 +64,16 @@ const EditTask = ({ task }: EditTaskProps) => {
   const isLoading = isUpdating || isDeleting;
 
   return (
-    <div className='divide-y rounded-lg border bg-white'>
+    <div className='divide-y rounded-lg border bg-card'>
       <div className='flex flex-col gap-6 p-6'>
         <div>
           <label
             htmlFor='edit-title'
-            className='mb-2 block text-lg font-medium'
+            className='mb-2 block text-lg font-medium text-foreground'
           >
             Title
           </label>
-          <p className='mb-2 text-sm text-gray-600'>
+          <p className='mb-2 text-sm text-muted-foreground'>
             Enter a clear, concise title for your task.
           </p>
           <Input
@@ -89,11 +89,11 @@ const EditTask = ({ task }: EditTaskProps) => {
         <div>
           <label
             htmlFor='edit-description'
-            className='mb-2 block text-lg font-medium'
+            className='mb-2 block text-lg font-medium text-foreground'
           >
             Description
           </label>
-          <p className='mb-2 text-sm text-gray-600'>
+          <p className='mb-2 text-sm text-muted-foreground'>
             Provide detailed information about what needs to be done.
           </p>
           <Textarea
