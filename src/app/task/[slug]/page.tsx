@@ -58,11 +58,11 @@ const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
       <div className='flex items-center gap-4'>
         <button
           onClick={() => router.back()}
-          className='text-gray-600 transition-colors hover:text-gray-900'
+          className='text-muted-foreground transition-colors hover:text-foreground'
         >
           ← Back
         </button>
-        <h1 className='text-2xl font-bold'>Edit Task</h1>
+        <h1 className='text-2xl font-bold text-foreground'>Edit Task</h1>
       </div>
 
       <div className='flex flex-col gap-6'>

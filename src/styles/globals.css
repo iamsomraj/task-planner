@@ -74,6 +74,13 @@
   * {
     @apply border-border;
   }
+
+  html {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings:

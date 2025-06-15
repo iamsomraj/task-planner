@@ -118,7 +118,7 @@ function HomePage() {
   if (error) {
     return (
       <div className='flex h-64 items-center justify-center'>
-        <div className='text-lg text-red-500'>Failed to load tasks</div>
+        <div className='text-lg text-destructive'>Failed to load tasks</div>
       </div>
     );
   }
@@ -129,8 +129,8 @@ function HomePage() {
       <div className='space-y-4'>
         <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
           <div>
-            <h1 className='text-3xl font-bold text-gray-900'>My Tasks</h1>
-            <p className='mt-1 text-sm text-gray-600'>
+            <h1 className='text-3xl font-bold text-foreground'>My Tasks</h1>
+            <p className='mt-1 text-sm text-muted-foreground'>
               Organize and track your daily tasks
             </p>
           </div>
@@ -162,7 +162,7 @@ function HomePage() {
 
       {/* Filters and Sorting */}
       <div
-        className={`rounded-lg border bg-white shadow-sm ${
+        className={`rounded-lg border bg-card shadow-sm ${
           showFilters ? 'block' : 'hidden md:block'
         }`}
       >
@@ -172,7 +172,7 @@ function HomePage() {
             <div className='flex items-center justify-between'>
               <label
                 htmlFor='search'
-                className='text-sm font-semibold text-gray-900'
+                className='text-sm font-semibold text-foreground'
               >
                 Search Tasks
               </label>
@@ -188,13 +188,13 @@ function HomePage() {
           </div>
 
           {/* Divider */}
-          <div className='border-t border-gray-200' />
+          <div className='border-t border-border' />
 
           {/* Filters and Sort Section */}
           <div className='grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8'>
             {/* Status Filter */}
             <div className='space-y-3'>
-              <label className='block text-sm font-semibold text-gray-900'>
+              <label className='block text-sm font-semibold text-foreground'>
                 Filter by Status
               </label>
               <div className='flex flex-wrap gap-2'>
@@ -227,13 +227,13 @@ function HomePage() {
 
             {/* Sort Options */}
             <div className='space-y-3'>
-              <label className='block text-sm font-semibold text-gray-900'>
+              <label className='block text-sm font-semibold text-foreground'>
                 Sort Tasks
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                className='w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 transition-colors focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500'
+                className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground transition-colors focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring'
               >
                 <option value='date-desc'>Newest First</option>
                 <option value='date-asc'>Oldest First</option>
@@ -246,7 +246,7 @@ function HomePage() {
 
             {/* Clear Filters */}
             <div className='space-y-3'>
-              <label className='block text-sm font-semibold text-gray-900'>
+              <label className='block text-sm font-semibold text-foreground'>
                 Quick Actions
               </label>
               {searchTerm ||
@@ -265,7 +265,7 @@ function HomePage() {
                   Clear All Filters
                 </Button>
               ) : (
-                <div className='text-sm italic text-gray-500'>
+                <div className='text-sm italic text-muted-foreground'>
                   No active filters
                 </div>
               )}
@@ -273,12 +273,12 @@ function HomePage() {
           </div>
 
           {/* Divider */}
-          <div className='border-t border-gray-200' />
+          <div className='border-t border-border' />
 
           {/* Results Summary */}
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4'>
-              <span className='text-sm font-medium text-gray-900'>
+              <span className='text-sm font-medium text-foreground'>
                 Showing {filteredAndSortedTasks.length} of {tasks?.length || 0}{' '}
                 tasks
               </span>
@@ -294,11 +294,11 @@ function HomePage() {
 
       {/* Task List Section */}
       {!tasks || tasks.length === 0 ? (
-        <div className='rounded-lg border border-dashed border-gray-300 bg-gray-50 py-16'>
+        <div className='rounded-lg border border-dashed border-border bg-muted/50 py-16'>
           <div className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-200'>
+            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted'>
               <svg
-                className='h-6 w-6 text-gray-400'
+                className='h-6 w-6 text-muted-foreground'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
@@ -311,10 +311,10 @@ function HomePage() {
                 />
               </svg>
             </div>
-            <h2 className='mb-2 text-xl font-semibold text-gray-900'>
+            <h2 className='mb-2 text-xl font-semibold text-foreground'>
               No tasks yet
             </h2>
-            <p className='mx-auto mb-6 max-w-md text-gray-600'>
+            <p className='mx-auto mb-6 max-w-md text-muted-foreground'>
               Get started by creating your first task. Stay organized and track
               your progress!
             </p>
@@ -341,10 +341,10 @@ function HomePage() {
                 />
               </svg>
             </div>
-            <h2 className='mb-2 text-xl font-semibold text-gray-900'>
+            <h2 className='mb-2 text-xl font-semibold text-foreground'>
               No tasks match your filters
             </h2>
-            <p className='mx-auto mb-6 max-w-md text-gray-600'>
+            <p className='mx-auto mb-6 max-w-md text-muted-foreground'>
               Try adjusting your search terms or filter criteria to find the
               tasks you&apos;re looking for.
             </p>
@@ -372,8 +372,10 @@ function HomePage() {
         <div className='space-y-4'>
           {/* Task List Header */}
           <div className='flex items-center justify-between'>
-            <h2 className='text-lg font-semibold text-gray-900'>Your Tasks</h2>
-            <div className='text-sm text-gray-500'>
+            <h2 className='text-lg font-semibold text-foreground'>
+              Your Tasks
+            </h2>
+            <div className='text-sm text-muted-foreground'>
               {filteredAndSortedTasks.length} task
               {filteredAndSortedTasks.length !== 1 ? 's' : ''}
             </div>

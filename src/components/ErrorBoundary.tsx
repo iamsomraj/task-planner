@@ -37,18 +37,18 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className='flex min-h-screen items-center justify-center bg-slate-50'>
-          <div className='max-w-md rounded-lg border bg-white p-6 text-center shadow-sm'>
-            <h2 className='mb-4 text-xl font-semibold text-gray-900'>
+        <div className='flex min-h-screen items-center justify-center bg-background'>
+          <div className='max-w-md rounded-lg border bg-card p-6 text-center shadow-sm'>
+            <h2 className='mb-4 text-xl font-semibold text-foreground'>
               Something went wrong
             </h2>
-            <p className='mb-4 text-gray-600'>
+            <p className='mb-4 text-muted-foreground'>
               We apologize for the inconvenience. Please try refreshing the
               page.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className='rounded-md bg-gray-900 px-4 py-2 text-white transition-colors hover:bg-gray-800'
+              className='rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90'
             >
               Refresh Page
             </button>
