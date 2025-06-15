@@ -1,54 +1,71 @@
 'use client';
 
 import EditTask from '@/components/EditTask';
-import Task from '@/components/Task';
 import { useAuthContext } from '@/context/AuthContext';
-import getUserTask from '@/firebase/firestore/getUserTask';
-import { useQuery } from '@tanstack/react-query';
+import { useGetTask } from '@/hooks/useTasks';
+import { RouteParams } from '@/types/common';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { toast } from 'react-hot-toast';
 
 interface TaskEditPageProps {
-  params: {
-    slug: string;
-  };
+  params: RouteParams;
 }
 
 const TaskEditPage = ({ params: { slug } }: TaskEditPageProps) => {
   const { user } = useAuthContext();
   const router = useRouter();
-
-  const queryKey = ['task', slug];
-
-  const { isLoading, error, data } = useQuery(
-    queryKey,
-    async () => {
-      if (!user?.uid || !slug) {
-        return;
-      }
-      return await getUserTask(slug, user.uid);
-    },
-    {
-      onError: () => {
-        toast.error('There was an error. Could not fetch task.');
-        router.push(`/home`);
-      },
-    }
-  );
+  const { data: task, isLoading, error } = useGetTask(slug);
 
   React.useEffect(() => {
-    if (user === null) router.push('/sign-in');
+    if (!user) {
+      router.push('/sign-in');
+    }
   }, [user, router]);
 
-  if (isLoading) return 'Loading...';
+  React.useEffect(() => {
+    if (error) {
+      router.push('/home');
+    }
+  }, [error, router]);
 
-  if (error || !data) return 'An error has occurred';
+  React.useEffect(() => {
+    // If task data is undefined after loading, redirect to home
+    // This handles cases where task might be deleted during viewing
+    if (!isLoading && !task && !error) {
+      router.push('/home');
+    }
+  }, [isLoading, task, error, router]);
+
+  if (isLoading) {
+    return (
+      <div className='flex h-64 items-center justify-center'>
+        <div className='text-lg'>Loading task...</div>
+      </div>
+    );
+  }
+
+  if (error || !task) {
+    return (
+      <div className='flex h-64 items-center justify-center'>
+        <div className='text-lg text-red-500'>Task not found</div>
+      </div>
+    );
+  }
 
   return (
     <div className='flex flex-col gap-y-6'>
+      <div className='flex items-center gap-4'>
+        <button
+          onClick={() => router.back()}
+          className='text-gray-600 transition-colors hover:text-gray-900'
+        >
+          ← Back
+        </button>
+        <h1 className='text-2xl font-bold'>Edit Task</h1>
+      </div>
+
       <div className='flex flex-col gap-6'>
-        <EditTask task={data} />
+        <EditTask task={task} />
       </div>
     </div>
   );

@@ -1,29 +1,22 @@
-import { buttonVariants } from '@/components/ui/Button';
-import signOut from '@/firebase/auth/googleSignOut';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
+import { Button } from '@/components/ui/Button';
+import { useSignOut } from '@/hooks/useAuth';
+import { FC } from 'react';
 
-function SignOutButton() {
-  const router = useRouter();
-
-  const onSignOut = async () => {
-    const { success, error } = await signOut();
-
-    if (success) {
-      router.push('/');
-      return success;
-    } else {
-      toast.error('There was an error during sign out!');
-      return error;
-    }
-  };
+const SignOutButton: FC = () => {
+  const { mutate: signOut, isLoading } = useSignOut();
 
   return (
-    <Link href='/sign-in' onClick={onSignOut} className={buttonVariants()}>
+    <Button
+      onClick={() => signOut()}
+      variant='destructive'
+      size='sm'
+      isLoading={isLoading}
+      disabled={isLoading}
+      className='text-xs'
+    >
       Sign Out
-    </Link>
+    </Button>
   );
-}
+};
 
 export default SignOutButton;

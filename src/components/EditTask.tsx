@@ -1,120 +1,139 @@
-import { useAuthContext } from '@/context/AuthContext';
-import updateTask from '@/firebase/firestore/updateTask';
+import { useDeleteTask, useUpdateTask } from '@/hooks/useTasks';
 import { ITask } from '@/types/Task';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { generateSlug } from '@/utils/helpers';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { toast } from 'react-hot-toast';
-import slugify from 'slugify';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Textarea } from './ui/Textarea';
 
-type Props = {
+interface EditTaskProps {
   task: ITask;
-};
+}
 
-const EditTask = (props: Props) => {
-  const { user } = useAuthContext();
-  const [title, setTitle] = useState<string>(() => {
-    return props?.task?.title;
-  });
-  const [description, setDescription] = useState<string>(() => {
-    return props?.task?.description;
-  });
+const EditTask = ({ task }: EditTaskProps) => {
+  const [title, setTitle] = useState<string>(task.title);
+  const [description, setDescription] = useState<string>(task.description);
   const router = useRouter();
 
-  const queryClient = useQueryClient();
+  const { mutate: updateTask, isLoading: isUpdating } = useUpdateTask();
+  const { mutate: deleteTask, isLoading: isDeleting } = useDeleteTask();
 
-  const { mutate: updateThisTask, isLoading } = useMutation({
-    mutationFn: async () => {
-      if (!user?.uid || !props?.task?.id || !props?.task?.slug) {
-        return;
-      }
-
-      await updateTask(
-        props.task.id,
-        props.task.slug,
-        {
-          slug: slugify(title, { lower: true }) + '-' + new Date().getTime(),
-          title,
-          description,
-        },
-        user.uid
-      );
+  const handleUpdate = () => {
+    if (!task.id || !task.slug || !title.trim() || !description.trim()) {
       return;
-    },
-    onError: () => {
-      toast.error('There was an error. Could not update the task.');
-    },
-    onSuccess: () => {
-      toast.success('Task updated successfully!');
-      router.push(`/home`);
-      queryClient.invalidateQueries({ queryKey: ['task', props?.task?.slug] });
-    },
-  });
+    }
 
-  const { mutate: deleteThisTask, isLoading: isDeleteLoading } = useMutation({
-    mutationFn: async () => {
-      if (!user?.uid || !props?.task?.id || !props?.task?.slug) {
-        return;
-      }
+    const updateData: Partial<ITask> = {
+      title: title.trim(),
+      description: description.trim(),
+    };
 
-      await updateTask(
-        props.task.id,
-        props.task.slug,
-        {
-          isDeleted: true,
-        },
-        user.uid
-      );
-      return;
-    },
-    onError: () => {
-      toast.error('There was an error. Could not delete task.');
-    },
-    onSuccess: () => {
-      toast.success('Task deleted successfully!');
-      router.push(`/home`);
-    },
-  });
+    // Only update slug if title has changed
+    if (title.trim() !== task.title) {
+      (updateData as ITask).slug = `${generateSlug(
+        title.trim()
+      )}-${Date.now()}`;
+    }
+
+    updateTask({
+      id: task.id,
+      slug: task.slug,
+      updateData,
+    });
+  };
+
+  const handleDelete = () => {
+    if (!task.id || !task.slug) return;
+
+    if (
+      window.confirm(
+        'Are you sure you want to delete this task? This action cannot be undone.'
+      )
+    ) {
+      deleteTask({
+        id: task.id,
+        slug: task.slug,
+      });
+    }
+  };
+
+  const isFormValid = title.trim().length > 0 && description.trim().length > 0;
+  const hasChanges =
+    title.trim() !== task.title || description.trim() !== task.description;
+  const isLoading = isUpdating || isDeleting;
 
   return (
     <div className='divide-y rounded-lg border bg-white'>
-      <div className='flex flex-col gap-2 p-4'>
+      <div className='flex flex-col gap-6 p-6'>
         <div>
-          <p className='text-lg font-medium'>Title</p>
-          <p className='pb-2 text-xs'>Task titles can be 5-10 words.</p>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          <label
+            htmlFor='edit-title'
+            className='mb-2 block text-lg font-medium'
+          >
+            Title
+          </label>
+          <p className='mb-2 text-sm text-gray-600'>
+            Enter a clear, concise title for your task.
+          </p>
+          <Input
+            id='edit-title'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder='Enter task title...'
+            maxLength={100}
+            disabled={isLoading}
+          />
         </div>
 
         <div>
-          <p className='text-lg font-medium'>Description</p>
-          <p className='pb-2 text-xs'>Give details about your task.</p>
+          <label
+            htmlFor='edit-description'
+            className='mb-2 block text-lg font-medium'
+          >
+            Description
+          </label>
+          <p className='mb-2 text-sm text-gray-600'>
+            Provide detailed information about what needs to be done.
+          </p>
           <Textarea
+            id='edit-description'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder='Describe your task in detail...'
+            rows={4}
+            disabled={isLoading}
           />
         </div>
       </div>
-      <div className='flex items-center justify-between p-4'>
+
+      <div className='flex items-center justify-between p-6'>
         <Button
-          variant={'default'}
-          size={'lg'}
-          isLoading={isDeleteLoading}
-          onClick={() => deleteThisTask()}
+          onClick={handleDelete}
+          variant='destructive'
+          disabled={isLoading}
+          isLoading={isDeleting}
         >
-          Delete
+          {isDeleting ? 'Deleting...' : 'Delete Task'}
         </Button>
-        <Button
-          variant={'default'}
-          size={'lg'}
-          isLoading={isLoading}
-          disabled={title.length === 0 || description.length === 0}
-          onClick={() => updateThisTask()}
-        >
-          Update
-        </Button>
+
+        <div className='flex items-center gap-3'>
+          <Button
+            type='button'
+            variant='outline'
+            onClick={() => router.back()}
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleUpdate}
+            disabled={!isFormValid || !hasChanges || isLoading}
+            isLoading={isUpdating}
+          >
+            {isUpdating ? 'Updating...' : 'Update Task'}
+          </Button>
+        </div>
       </div>
     </div>
   );

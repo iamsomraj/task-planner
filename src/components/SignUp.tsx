@@ -1,4 +1,3 @@
-import { Icons } from '@/components/Icons';
 import UserAuthForm from '@/components/UserAuthForm';
 import Link from 'next/link';
 

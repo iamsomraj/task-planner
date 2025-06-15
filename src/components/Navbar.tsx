@@ -5,7 +5,6 @@ import { buttonVariants } from './ui/Button';
 import { useAuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import SignOutButton from './SignOutButton';
 import { UserNavbarActions } from './UserNavbarActions';
 
 const Navbar = () => {
@@ -18,12 +17,15 @@ const Navbar = () => {
 
   return (
     <div className='fixed inset-x-0 top-0 z-[10] border-b border-zinc-300 bg-zinc-100 py-2'>
-      <div className='container mx-auto flex h-full max-w-7xl items-center justify-between gap-2'>
+      <div className='container mx-auto flex h-full max-w-7xl items-center justify-between gap-2 px-4'>
         {/* brand */}
         <Link href='/' className='flex items-center gap-2'>
           <span>✍🏻</span>
-          <span className='text-base font-bold text-zinc-700'>
+          <span className='hidden text-base font-bold text-zinc-700 sm:block'>
             Task Planner Pro
+          </span>
+          <span className='block text-base font-bold text-zinc-700 sm:hidden'>
+            Tasks
           </span>
         </Link>
         {/* brand */}
@@ -32,7 +34,7 @@ const Navbar = () => {
         {!!user ? (
           <UserNavbarActions user={user} />
         ) : (
-          <Link href='/sign-in' className={buttonVariants()}>
+          <Link href='/sign-in' className={buttonVariants({ size: 'sm' })}>
             Sign In
           </Link>
         )}
