@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.2.0
+
+[compare changes](https://github.com/iamsomraj/task-planner/compare/v1.1.0...v1.2.0)
+
+### 🚀 Enhancements
+
+- Implement theme toggle functionality and update UI styles ([edba3e1](https://github.com/iamsomraj/task-planner/commit/edba3e1))
+
+### 🩹 Fixes
+
+- Update styling for empty task state to improve UI consistency ([6de584a](https://github.com/iamsomraj/task-planner/commit/6de584a))
+
+### 🏡 Chore
+
+- **release:** V1.1.0 ([6a0ee75](https://github.com/iamsomraj/task-planner/commit/6a0ee75))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v1.1.0
 
 [compare changes](https://github.com/iamsomraj/task-planner/compare/v1.0.4...v1.1.0)
