@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { useAuthContext } from '@/context/AuthContext';
 import { useSignIn, useSignUp } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { FC } from 'react';
@@ -24,7 +25,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, mode, ...props }) => {
 
   React.useEffect(() => {
     if (user) {
-      router.push('/home');
+      router.push(ROUTES.HOME);
     }
   }, [user, router]);
 

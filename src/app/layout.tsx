@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Providers from '@/components/Providers';
 import Toast from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
+import { APP_CONFIG } from '@/lib/constants';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -9,8 +10,8 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Task Planner Pro',
-  description: 'Manage all of your tasks in one go',
+  title: APP_CONFIG.name,
+  description: APP_CONFIG.description,
   viewport: {
     width: 'device-width',
     height: 'device-height',
