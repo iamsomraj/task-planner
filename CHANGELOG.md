@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.1.0
+
+[compare changes](https://github.com/iamsomraj/task-planner/compare/v1.0.4...v1.1.0)
+
+### 🚀 Enhancements
+
+- Implement theme toggle functionality and update UI styles ([edba3e1](https://github.com/iamsomraj/task-planner/commit/edba3e1))
+
+### 🏡 Chore
+
+- Update version to 1.0.3 and refactor routing to use constants ([3cae661](https://github.com/iamsomraj/task-planner/commit/3cae661))
+- **release:** V1.0.4 ([20969e0](https://github.com/iamsomraj/task-planner/commit/20969e0))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v1.0.4
 
 [compare changes](https://github.com/iamsomraj/task-planner/compare/v1.0.3...v1.0.4)
