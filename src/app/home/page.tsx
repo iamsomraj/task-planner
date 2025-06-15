@@ -125,23 +125,35 @@ function HomePage() {
   return (
     <div className='flex flex-col gap-8'>
       {/* Header Section */}
-      <div className='flex items-center justify-between'>
-        <div>
-          <h1 className='text-3xl font-bold text-gray-900'>My Tasks</h1>
-          <p className='mt-1 text-sm text-gray-600'>
-            Organize and track your daily tasks
-          </p>
+      <div className='space-y-4'>
+        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+          <div>
+            <h1 className='text-3xl font-bold text-gray-900'>My Tasks</h1>
+            <p className='mt-1 text-sm text-gray-600'>
+              Organize and track your daily tasks
+            </p>
+          </div>
+          <div className='hidden sm:block'>
+            <Link href='/create' className={buttonVariants()}>
+              Create Task
+            </Link>
+          </div>
         </div>
-        <div className='flex items-center gap-3'>
+
+        {/* Mobile Actions */}
+        <div className='flex flex-col gap-3 sm:hidden'>
           <Button
             variant='outline'
             size='sm'
             onClick={() => setShowFilters(!showFilters)}
-            className='md:hidden'
+            className='w-full'
           >
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </Button>
-          <Link href='/create' className={buttonVariants()}>
+          <Link
+            href='/create'
+            className={buttonVariants({ className: 'w-full' })}
+          >
             Create Task
           </Link>
         </div>
