@@ -324,11 +324,11 @@ function HomePage() {
           </div>
         </div>
       ) : filteredAndSortedTasks.length === 0 ? (
-        <div className='rounded-lg border border-dashed border-yellow-200 bg-yellow-50 py-16'>
+        <div className='rounded-lg border border-dashed border-border bg-muted/20 py-16'>
           <div className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-yellow-200'>
+            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted'>
               <svg
-                className='h-6 w-6 text-yellow-600'
+                className='h-6 w-6 text-muted-foreground'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
