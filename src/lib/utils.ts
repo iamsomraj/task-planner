@@ -1,6 +1,7 @@
-export {
-  cn, debounce, generateSlug, isValidEmail, truncateText
-} from '@/utils/helpers';
-export { convertFirestoreTimestamp, formatTimeToNow } from '@/utils/time';
-export { APP_CONFIG, COLLECTIONS, QUERY_KEYS, ROUTES } from './constants';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
+/** Merge conditional class names and dedupe conflicting Tailwind utilities. */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

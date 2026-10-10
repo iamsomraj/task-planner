@@ -1,58 +1,50 @@
 'use client';
 
-import React from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/services/firebase';
-import { Icons } from '@/components/Icons';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
+import { authProvider } from '@/providers/auth.provider';
+import type { AppUser } from '@/types/user';
 
-type AuthContextState = {
-  user: User | null;
-};
+interface AuthState {
+  user: AppUser | null;
+  /** True until Firebase reports the initial auth state. */
+  isLoading: boolean;
+}
 
-const initialState: AuthContextState = {
-  user: null,
-};
+const AuthContext = createContext<AuthState | null>(null);
 
-export const AuthContext = React.createContext(initialState);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    isLoading: true,
+  });
 
-export const useAuthContext = () => {
-  const context = React.useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error(
-      'useAuthContext must be used within an AuthContextProvider'
-    );
-  }
-  return context;
-};
-
-export const AuthContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true);
-
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const value = React.useMemo(() => ({ user }), [user]);
-
-  return (
-    <AuthContext.Provider value={value}>
-      {loading ? (
-        <div className='flex w-full flex-1 items-center justify-center'>
-          <Icons.loader className='h-6 w-6 flex-shrink-0 animate-spin' />
-        </div>
-      ) : (
-        children
-      )}
-    </AuthContext.Provider>
+  useEffect(
+    () => authProvider.onChange((user) => setState({ user, isLoading: false })),
+    []
   );
-};
+
+  const value = useMemo(() => state, [state]);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth(): AuthState {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  return context;
+}
+
+/** The current user's id; throws if called before sign-in (protected routes only). */
+export function useRequiredUserId(): () => string {
+  const { user } = useAuth();
+  return () => {
+    if (!user) throw new Error('You need to be signed in');
+    return user.uid;
+  };
+}

@@ -1,16 +1,8 @@
-import SignUp from '@/components/SignUp';
-import { FC } from 'react';
+import type { Metadata } from 'next';
+import { AuthCard } from '@/components/auth/AuthCard';
 
-interface pageProps {}
+export const metadata: Metadata = { title: 'Sign up' };
 
-const page: FC<pageProps> = ({}) => {
-  return (
-    <div className='absolute inset-0'>
-      <div className='mx-auto flex h-full max-w-2xl items-center justify-center'>
-        <SignUp />
-      </div>
-    </div>
-  );
-};
-
-export default page;
+export default function SignUpPage() {
+  return <AuthCard mode='sign-up' />;
+}
