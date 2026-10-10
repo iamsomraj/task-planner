@@ -1,10 +1,11 @@
 export const APP_CONFIG = {
   name: 'Task Planner Pro',
   description: 'Manage all of your tasks in one go',
-  version: '1.0.0',
+  version: process.env.NEXT_PUBLIC_APP_VERSION ?? '0.0.0',
 } as const;
 
 export const ROUTES = {
+  ROOT: '/',
   HOME: '/home',
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
@@ -16,7 +17,11 @@ export const COLLECTIONS = {
   TASKS: 'tasks',
 } as const;
 
-export const QUERY_KEYS = {
-  TASKS: 'tasks',
-  TASK: 'task',
+export const STORAGE_KEYS = {
+  TASK_PREFERENCES: 'taskPreferences',
+} as const;
+
+export const TASK_LIMITS = {
+  TITLE_MAX: 100,
+  DESCRIPTION_MAX: 2000,
 } as const;

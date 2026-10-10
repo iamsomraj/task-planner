@@ -1,9 +1,12 @@
-import { formatDistanceToNowStrict } from 'date-fns';
-import locale from 'date-fns/locale/en-US';
-import { ITaskTimestamp } from '@/types/Task';
-import { Timestamp } from 'firebase/firestore';
+import {
+  format,
+  formatDistanceToNowStrict,
+  type FormatDistanceFn,
+} from 'date-fns';
+import { enUS } from 'date-fns/locale';
 
-const formatDistanceLocale = {
+// Compact relative units ("5m ago", "2d ago") instead of date-fns' long form.
+const compactTokens: Record<string, string> = {
   lessThanXSeconds: 'just now',
   xSeconds: 'just now',
   halfAMinute: 'just now',
@@ -14,55 +17,28 @@ const formatDistanceLocale = {
   xDays: '{{count}}d',
   aboutXWeeks: '{{count}}w',
   xWeeks: '{{count}}w',
-  aboutXMonths: '{{count}}m',
-  xMonths: '{{count}}m',
+  aboutXMonths: '{{count}}mo',
+  xMonths: '{{count}}mo',
   aboutXYears: '{{count}}y',
   xYears: '{{count}}y',
   overXYears: '{{count}}y',
   almostXYears: '{{count}}y',
 };
 
-function formatDistance(
-  token: string,
-  count: number,
-  options?: { addSuffix?: boolean; comparison?: number }
-): string {
-  options = options || {};
-
-  const result = formatDistanceLocale[
-    token as keyof typeof formatDistanceLocale
-  ]?.replace('{{count}}', count.toString());
-
-  if (options?.addSuffix) {
-    if ((options.comparison ?? 0) > 0) {
-      return 'in ' + result;
-    } else {
-      if (result === 'just now') return result;
-      return result + ' ago';
-    }
-  }
-
-  return result || '';
-}
+const formatDistance: FormatDistanceFn = (token, count, options) => {
+  const result =
+    compactTokens[token]?.replace('{{count}}', String(count)) ?? '';
+  if (!options?.addSuffix || result === 'just now') return result;
+  return (options.comparison ?? 0) > 0 ? `in ${result}` : `${result} ago`;
+};
 
 export function formatTimeToNow(date: Date): string {
   return formatDistanceToNowStrict(date, {
     addSuffix: true,
-    locale: {
-      ...locale,
-      formatDistance,
-    },
+    locale: { ...enUS, formatDistance },
   });
 }
 
-export function convertFirestoreTimestamp(
-  timestamp: ITaskTimestamp | Timestamp
-): Date {
-  if (timestamp instanceof Timestamp) {
-    return timestamp.toDate();
-  }
-  const seconds = timestamp.seconds;
-  const milliseconds =
-    seconds * 1000 + Math.round(timestamp.nanoseconds / 1000000);
-  return new Date(milliseconds);
+export function formatFullDate(date: Date): string {
+  return format(date, 'PPP p');
 }
