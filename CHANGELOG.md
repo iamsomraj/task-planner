@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.0
+
+[compare changes](https://github.com/iamsomraj/task-planner/compare/7d81666...v1.3.0)
+
+### 🚀 Enhancements
+
+- Upgrade to Next.js 16 and adopt layered data architecture ([#2](https://github.com/iamsomraj/task-planner/pull/2))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v1.2.1
 
 [compare changes](https://github.com/iamsomraj/task-planner/compare/v1.2.0...v1.2.1)
